@@ -18,11 +18,13 @@ jobs:
           mkdir C:\artifacts
           mkdir C:\artifacts\include
           mkdir C:\artifacts\lib
-          cp C:\pthread-win32\windows\VS2022\bin\Release-Unicode-64bit-x64\pthread_static_lib.lib C:\artifacts\lib
+          cp C:\pthread-win32\windows\VS2022\bin\Release-Unicode-64bit-x64\pthread_static_lib.lib C:\artifacts\lib\pthread.lib
           cp C:\pthread-win32\_ptw32.h C:\artifacts\include
           cp C:\pthread-win32\pthread.h C:\artifacts\include
           cp C:\pthread-win32\sched.h C:\artifacts\include
           cp C:\pthread-win32\semaphore.h C:\artifacts\include
+          ls C:\artifacts\include
+          ls C:\artifacts\lib
 
       - name: Upload
         uses: actions/upload-artifact@v4

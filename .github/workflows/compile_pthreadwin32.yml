@@ -37,4 +37,5 @@ jobs:
       - name: Upload
         uses: actions/upload-artifact@v4
         with:
+          name: pthread-win32_static_lib_${{ matrix.arch[2] }}
           path: C:\artifacts

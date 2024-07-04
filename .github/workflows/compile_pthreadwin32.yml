@@ -5,7 +5,9 @@ jobs:
   compile:
     strategy:
       matrix:
-        arch: [x86, x64]
+        arch:
+          - [x64, 64bit, x64]
+          - [Win32, 32bit, x86]
     name: Compile pthread-win32
     runs-on: windows-latest
     steps:
@@ -13,15 +15,15 @@ jobs:
         continue-on-error: true
         run: |
           Import-Module 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\Tools\Microsoft.VisualStudio.DevShell.dll'
-          Enter-VsDevShell -VsInstallPath 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise' -DevCmdArguments '-arch=${{ matrix.arch }}' -StartInPath 'C:\'
+          Enter-VsDevShell -VsInstallPath 'C:\Program Files\Microsoft Visual Studio\2022\Enterprise' -DevCmdArguments '-arch=${{ matrix.arch[2] }}' -StartInPath 'C:\'
           git clone https://github.com/GerHobbelt/pthread-win32.git
           cd C:\pthread-win32\windows\VS2022
-          msbuild .\pthread.2022.sln -t:pthread_static_lib -p:Configuration=Release,Platform=${{ matrix.arch }}
+          msbuild .\pthread.2022.sln -t:pthread_static_lib -p:Configuration=Release,Platform=${{ matrix.arch[0] }}
           cd C:\
           mkdir C:\artifacts
           mkdir C:\artifacts\include
           mkdir C:\artifacts\lib
-          cp C:\pthread-win32\windows\VS2022\bin\Release-Unicode-64bit-${{ matrix.arch }}\pthread_static_lib.lib C:\artifacts\lib\pthread.lib
+          cp C:\pthread-win32\windows\VS2022\bin\Release-Unicode-${{ matrix.arch[1] }}-${{ matrix.arch[2] }}\pthread_static_lib.lib C:\artifacts\lib\pthread.lib
           cp C:\pthread-win32\_ptw32.h C:\artifacts\include
           cp C:\pthread-win32\pthread.h C:\artifacts\include
           cp C:\pthread-win32\sched.h C:\artifacts\include
